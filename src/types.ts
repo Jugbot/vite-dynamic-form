@@ -1,5 +1,4 @@
 import React, { SetStateAction } from 'react';
-import { DeepReadonly } from './utils';
 
 export enum ComponentID {
   ExampleComponent = "ExampleComponent",
@@ -14,6 +13,8 @@ export interface ComponentIDTag<UID extends ComponentID> {
 export interface VersionTag<Version extends number> {
   _version: Version;
 }
+
+export type LatestVersionTag = VersionTag<typeof LATEST_GLOBAL_VERSION>
 
 export type Tagged<Schema, Version extends number, UID extends ComponentID> = Schema &
   VersionTag<Version> &
@@ -106,7 +107,7 @@ type EventToPaylod<Tuple extends readonly [...FormEvents[]], Schema, FormData> =
 type EventHandler = <T extends [...FormEvents[]], Schema, FormData>(actions: T, callback: SetStateAction<EventToPaylod<T, Schema, FormData>>) => void
 
 export interface FormPackage<
-  Schema extends VersionTag<typeof LATEST_GLOBAL_VERSION>,
+  Schema extends LatestVersionTag,
   FormData
 > {
   // Basic controlled component pattern

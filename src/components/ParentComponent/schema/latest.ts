@@ -27,6 +27,7 @@ export type AnySchema = Schema | Legacy;
 export type Schema = Tagged<
   {
     subcomponent: ExampleComponent.Schema;
+    someValue: string
   },
   typeof VERSION,
   ComponentID.ParentCompoennt
@@ -35,7 +36,8 @@ export type Schema = Tagged<
 export const defaults: Schema = {
   _version: VERSION,
   _id: ComponentID.ParentCompoennt,
-  subcomponent: ExampleComponent.defaults,
+  subcomponent: ExampleComponent.SchemaDefaults,
+  someValue: ''
 };
 
 /**

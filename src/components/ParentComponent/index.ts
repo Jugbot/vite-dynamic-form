@@ -1,17 +1,17 @@
-import {ExampleComponent} from './ExampleComponent' 
+import {ParentComponent} from './ParentComponent' 
 import {Schema, AnySchema, defaults as SchemaDefaults} from './schema'
 import {defaults as FormDefaults } from './validation'
 import {FormState} from './types'
 import { makeModule } from '../formComponentMap'
 
 export const module = makeModule({
-  Component: ExampleComponent, 
+  Component: ParentComponent, 
   SchemaDefaults,
   FormDefaults
 })
 
 export {
-  ExampleComponent, 
+  ParentComponent,
   SchemaDefaults,
   FormDefaults
 }

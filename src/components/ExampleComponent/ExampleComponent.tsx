@@ -13,17 +13,12 @@ import * as validator from './validation';
 import { Schema } from './schema';
 import { ErrorID, FormState } from './types';
 
-export type ExampleComponentProps = FormPackage<Schema, FormState>;
 
 export const ExampleComponent = ({
   value: { schema, formState },
   onChange,
-}: ExampleComponentProps) => {
+}: FormPackage<Schema, FormState>) => {
   const { value, color } = schema;
-
-  React.useEffect(() => {
-    onChange((old) => ({ ...old, formState: validator.defaults(schema) }));
-  }, []);
 
   const handleValueChange: React.ChangeEventHandler<HTMLInputElement> = (
     event

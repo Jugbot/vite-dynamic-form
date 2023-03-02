@@ -1,31 +1,44 @@
-import { FormPackage, LATEST_GLOBAL_VERSION, ValidationRecord, VersionTag } from '../../types';
-import { ExampleComponent, ExampleComponentProps } from '../ExampleComponent';
-import { Schema } from './schema';
+import {
+  FormPackage
+} from "../../types";
+import { createNestingAdapter } from "../../utils";
+import { ValidationInfoDisplay } from "../Error";
+import { ExampleComponent } from "../ExampleComponent";
+import { Schema } from "./schema";
+import { ErrorID, FormState } from "./types";
+import * as validator from './validation';
+ 
 
-function passthrough<
-  ParentSchema extends FormPackage<infer U, infer F>
->(
-  props: FormPackage<ParentSchema, ParentValidationIds, "CHILD_KEY", ValidationRecord<>>,
-  value: ChildSchema
-): FormPackage<ChildSchema, ChildValidationIds> {
-  return {
-    value,
-    onChange: (action) => {},
-    onValidation: () => {},
-    validation: props.validation,
-  };
-}
-
-enum ErrorID {
-  ERROR = 'ERROR',
-}
-
-export const ParentComponent = (props: FormPackage<Schema, ErrorID, "SUBCOMPONENT_ID", ExampleComponentProps["validation"]>) => {
+export const ParentComponent = (props: FormPackage<Schema, FormState>) => {
   const {
-    value: { subcomponent },
+    value: { schema, formState },
     onChange,
-    onValidation,
-    validation,
   } = props;
-  return <ExampleComponent />;
+
+  const passProps = createNestingAdapter<Schema, FormState, FormPackage<Schema, FormState>>(props)
+
+  const handleSomeValueChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    const newValue = event.currentTarget.value;
+    onChange((old) => {
+      const newSchema = { ...old.schema, color: newValue };
+      return {
+        schema: newSchema,
+        formState: {
+          ...old.formState,
+          [ErrorID.ERROR]: validator.valueIsError(newSchema),
+        },
+      };
+    });
+  };
+
+  return (<>
+    <input value={schema.someValue} onChange={handleSomeValueChange} />
+    <ValidationInfoDisplay info={formState.ERROR} />
+    <ExampleComponent
+      {...passProps('subcomponent', 'CHILD_COMPONENT')}
+    />
+    </>
+  );
 };
