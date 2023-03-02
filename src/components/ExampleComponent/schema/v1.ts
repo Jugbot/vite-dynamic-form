@@ -1,4 +1,4 @@
-import { addMigrationPlan, LATEST_GLOBAL_VERSION } from '../../../types';
+import { addMigrationPlan } from '../../../types';
 
 import * as Last from './v0';
 

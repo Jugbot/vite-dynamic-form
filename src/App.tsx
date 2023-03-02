@@ -4,7 +4,7 @@ import { AnySchema, FormDefaults, ParentComponent } from './components/ParentCom
 import './App.css'
 import { migrationPlan } from './components/ParentComponent/schema'
 
-const initialSchema: AnySchema = {}
+const initialSchema: AnySchema = {} as {_version: never}
 const migratedSchema = migrationPlan(initialSchema)
 
 function formHasError(o: unknown): boolean {
