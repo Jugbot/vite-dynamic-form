@@ -1,32 +1,46 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
+import { AnySchema, FormDefaults, ParentComponent } from './components/ParentComponent'
 import './App.css'
+import { migrationPlan } from './components/ParentComponent/schema'
+
+const initialSchema: AnySchema = {}
+const migratedSchema = migrationPlan(initialSchema)
+
+function formHasError(o: unknown): boolean {
+  if (typeof o !== "object" || o === null || Array.isArray(o)) {
+    return false
+  } 
+  for (const key in o) {
+    if (key === "_type") {
+      return true
+    }
+    if (formHasError((o as Record<string, unknown>)[key])) {
+      return true
+    }
+  }
+  return false
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [value, onChange] = useState({
+    formState: FormDefaults(migratedSchema),
+    schema: migratedSchema
+  })
+
+  const hasError = formHasError(
+    value.formState
+  )
+
+  const handleSubmit = () => {
+    alert("submit")
+    console.log(value.schema)
+  }
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ParentComponent value={value} onChange={onChange}/>
+      <button type="button" disabled={hasError} onClick={handleSubmit}>Submit</button>
     </div>
   )
 }

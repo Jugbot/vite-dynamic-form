@@ -7,7 +7,10 @@ export enum ErrorID {
 }
 
 // The shape of form state here is fairly arbitrary
-export type FormState = Record<ErrorID, ValidationInfo | null>
+export type FormState = Record<ErrorID, ValidationInfo | null> & {
+  // Here we control the visibility of a certain error separately since we still want the error to exist even if we don't show it.
+  showFormatError: boolean
+}
 
 /**
  * Here is another approach

@@ -2,9 +2,7 @@
  * This type should represent any possible config that might exist 
  * in the system before we adopted versioning
  */
-
 type Legacy = {
-  _version: never
   value?: string
 }
 
@@ -15,7 +13,6 @@ type Legacy = {
  * When a change is made to the schema which requires a transformation 
  * of the last schema, a new file must be made. 
  */
-
 export const VERSION = 0
 
 /** The type that holds the union of this schema and any previous schema type */

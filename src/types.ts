@@ -134,3 +134,15 @@ export const consumeAction = <T extends ValidValues>(
   }
   return previous;
 };
+
+// Each form component should export a "module" that contains info that we will need for click to edit / drag and drop
+export type FormComponentModule<P, S, F> = {
+  Component: React.FunctionComponent<P>
+  SchemaDefaults: S,
+  FormDefaults: (schema: S) => F
+}
+
+// Used so we can infer the generic parts (Props, Schema, FormState)
+export function makeModule<P, S, F>(options: FormComponentModule<P, S, F>) {
+  return options
+}

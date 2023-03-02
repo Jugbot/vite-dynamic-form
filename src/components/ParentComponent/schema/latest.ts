@@ -7,7 +7,6 @@ import * as ExampleComponent from '../../ExampleComponent';
  */
 
 type Legacy = {
-  _version: never;
 };
 
 /**

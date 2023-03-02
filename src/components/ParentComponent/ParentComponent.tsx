@@ -22,7 +22,7 @@ export const ParentComponent = (props: FormPackage<Schema, FormState>) => {
   ) => {
     const newValue = event.currentTarget.value;
     onChange((old) => {
-      const newSchema = { ...old.schema, color: newValue };
+      const newSchema: Schema = { ...old.schema, someValue: newValue };
       return {
         schema: newSchema,
         formState: {

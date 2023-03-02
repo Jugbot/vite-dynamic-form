@@ -45,7 +45,7 @@ export const ExampleComponent = ({
       ...old,
       formState: {
         ...old.formState,
-        [ErrorID.COLOR_REQUIRED_ERROR]: validator.colorRequired(newSchema),
+        showFormatError: true
       },
     }));
   };
@@ -60,7 +60,9 @@ export const ExampleComponent = ({
         schema: newSchema,
         formState: {
           ...old.formState,
+          showFormatError: false,
           [ErrorID.COLOR_FORMAT_ERROR]: validator.colorFormat(newSchema),
+          [ErrorID.COLOR_REQUIRED_ERROR]: validator.colorRequired(newSchema),
         },
       };
     });
@@ -75,7 +77,7 @@ export const ExampleComponent = ({
         onBlur={handleColorBlur}
         onChange={handleColorChange}
       />
-      <ValidationInfoDisplay info={formState.COLOR_FORMAT_ERROR} />
+      {formState.showFormatError ? <ValidationInfoDisplay info={formState.COLOR_FORMAT_ERROR} /> : null}
       <ValidationInfoDisplay info={formState.COLOR_REQUIRED_ERROR} />
     </>
   );
