@@ -1,13 +1,10 @@
-import {
-  FormPackage
-} from "../../types";
+import { FormPackage } from "../../types";
 import { createNestingAdapter } from "../../utils";
 import { ValidationInfoDisplay } from "../Error";
 import { ExampleComponent } from "../ExampleComponent";
 import { Schema } from "./schema";
 import { ErrorID, FormState } from "./types";
-import * as validator from './validation';
- 
+import * as validator from "./validation";
 
 export const ParentComponent = (props: FormPackage<Schema, FormState>) => {
   const {
@@ -15,7 +12,11 @@ export const ParentComponent = (props: FormPackage<Schema, FormState>) => {
     onChange,
   } = props;
 
-  const passProps = createNestingAdapter<Schema, FormState, FormPackage<Schema, FormState>>(props)
+  const passProps = createNestingAdapter<
+    Schema,
+    FormState,
+    FormPackage<Schema, FormState>
+  >(props);
 
   const handleSomeValueChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -33,12 +34,15 @@ export const ParentComponent = (props: FormPackage<Schema, FormState>) => {
     });
   };
 
-  return (<>
-    <input value={schema.someValue} onChange={handleSomeValueChange} />
-    <ValidationInfoDisplay info={formState.ERROR} />
-    <ExampleComponent
-      {...passProps('subcomponent', 'CHILD_COMPONENT')}
-    />
-    </>
+  return (
+    <div style={{ display: "flex", gap: "4px", flexDirection: "column" }}>
+      <input
+        value={schema.someValue}
+        onChange={handleSomeValueChange}
+        placeholder="I am a field in parent"
+      />
+      <ValidationInfoDisplay info={formState.ERROR} />
+      <ExampleComponent {...passProps("subcomponent", "CHILD_COMPONENT")} />
+    </div>
   );
 };

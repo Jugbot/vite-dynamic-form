@@ -1,4 +1,4 @@
-import { ValidationInfo } from "../../types";
+import { SlotAttributes, ValidationInfo } from "../../types";
 
 export enum ErrorID {
   VALUE_ERROR = 'VALUE_ERROR',
@@ -27,3 +27,7 @@ type AnotherFormStateExample = {
     blur: ValidationInfo
   }
 }
+
+export const attributes = [
+  SlotAttributes.RENDERABLE
+] as const

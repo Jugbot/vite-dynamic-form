@@ -1,13 +1,14 @@
 import {ExampleComponent} from './ExampleComponent' 
 import {Schema, AnySchema, defaults as SchemaDefaults} from './schema'
 import {defaults as FormDefaults } from './validation'
-import {FormState} from './types'
-import { makeModule } from '../../types'
+import {attributes as Attributes, FormState} from './types'
+import { makeModule, SlotAttributes } from '../../types'
 
 export const module = makeModule({
   Component: ExampleComponent, 
   SchemaDefaults,
-  FormDefaults
+  FormDefaults,
+  Attributes
 })
 
 export {

@@ -1,8 +1,10 @@
 import React, { SetStateAction } from 'react';
+import { CompatibleComponent } from './components/formComponentMap';
 
 export enum ComponentID {
   ExampleComponent = "ExampleComponent",
-  ParentCompoennt = "ParentComponent"
+  ParentCompoennt = "ParentComponent",
+  SlotComponent = "SlotComponent"
 }
 
 /** Component id used for attributing data to the component that uses it (get rid of form configs) */
@@ -24,7 +26,7 @@ export const LATEST_GLOBAL_VERSION = 2;
 
 /** Legacy schemas (schemas before versioning was implemented) */
 interface LegacyVersionTag {
-  _version: never;
+  _version?: never;
 }
 
 export function addMigrationPlan<
@@ -136,13 +138,33 @@ export const consumeAction = <T extends ValidValues>(
 };
 
 // Each form component should export a "module" that contains info that we will need for click to edit / drag and drop
-export type FormComponentModule<P, S, F> = {
+export type FormComponentModule<P, S, F, A> = {
   Component: React.FunctionComponent<P>
   SchemaDefaults: S,
-  FormDefaults: (schema: S) => F
+  FormDefaults: (schema: S) => F,
+  Attributes: A
 }
 
 // Used so we can infer the generic parts (Props, Schema, FormState)
-export function makeModule<P, S, F>(options: FormComponentModule<P, S, F>) {
+export function makeModule<P, S, F, A>(options: FormComponentModule<P, S, F, A>) {
   return options
 }
+
+/**
+ * Slot attributes should make it easy to control what can be slotted where. 
+ * Otherwise if we add a new component that can go into a container we would 
+ * have to update all containers to accept this component.
+ * 
+ * A components' attributes need to all be included in a slots' attributes
+ */
+export enum SlotAttributes {
+  CONTAINER = "CONTAINER",
+  RENDERABLE = "RENDERABLE",
+}
+
+
+
+export type Slot<T extends SlotAttributes[], S extends CompatibleComponent<T> = CompatibleComponent<T>> = {
+  _accepts: T;
+  subcomponent: S extends never ? null : S["SchemaDefaults"] | null
+};

@@ -3,7 +3,7 @@
  * in the system before we adopted versioning
  */
 type Legacy = {
-  _version: never
+  _version?: never
   value?: string
 }
 

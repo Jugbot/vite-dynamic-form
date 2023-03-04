@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState } from 'react';
+import React from "react";
+import { useState } from "react";
 import {
   FormDataType,
   FormPackage,
@@ -7,12 +7,11 @@ import {
   ProblemLabels,
   ValidationInfo,
   VersionTag,
-} from '../../types';
-import { ValidationInfoDisplay } from '../Error';
-import * as validator from './validation';
-import { Schema } from './schema';
-import { ErrorID, FormState } from './types';
-
+} from "../../types";
+import { ValidationInfoDisplay } from "../Error";
+import * as validator from "./validation";
+import { Schema } from "./schema";
+import { ErrorID, FormState } from "./types";
 
 export const ExampleComponent = ({
   value: { schema, formState },
@@ -45,7 +44,7 @@ export const ExampleComponent = ({
       ...old,
       formState: {
         ...old.formState,
-        showFormatError: true
+        showFormatError: true,
       },
     }));
   };
@@ -69,16 +68,22 @@ export const ExampleComponent = ({
   };
 
   return (
-    <>
-      <input value={value} onChange={handleValueChange} />
+    <div style={{ display: "flex", gap: "4px", flexDirection: "column" }}>
+      <input
+        value={value}
+        onChange={handleValueChange}
+        placeholder="Type 'error' to trigger an error!"
+      />
       <ValidationInfoDisplay info={formState.VALUE_ERROR} />
       <input
         value={color}
         onBlur={handleColorBlur}
         onChange={handleColorChange}
       />
-      {formState.showFormatError ? <ValidationInfoDisplay info={formState.COLOR_FORMAT_ERROR} /> : null}
+      {formState.showFormatError ? (
+        <ValidationInfoDisplay info={formState.COLOR_FORMAT_ERROR} />
+      ) : null}
       <ValidationInfoDisplay info={formState.COLOR_REQUIRED_ERROR} />
-    </>
+    </div>
   );
 };

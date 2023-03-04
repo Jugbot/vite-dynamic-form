@@ -1,18 +1,18 @@
-import {ParentComponent} from './ParentComponent' 
+import {SlotComponent} from './SlotComponent' 
 import {Schema, AnySchema, defaults as SchemaDefaults} from './schema'
 import {defaults as FormDefaults } from './validation'
 import {attributes as Attributes, FormState} from './types'
 import { makeModule } from '../../types'
 
 export const module = makeModule({
-  Component: ParentComponent, 
+  Component: SlotComponent, 
   SchemaDefaults,
   FormDefaults,
   Attributes
 })
 
 export {
-  ParentComponent,
+  SlotComponent,
   SchemaDefaults,
   FormDefaults
 }

@@ -1,10 +1,13 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import { AnySchema, FormDefaults, ParentComponent } from './components/ParentComponent'
-import './App.css'
-import { migrationPlan } from './components/ParentComponent/schema'
+import './components/formComponentMap'
+import { AnySchema, FormDefaults, SlotComponent } from './components/SlotComponent'
+import { migrationPlan } from './components/SlotComponent/schema'
 
-const initialSchema: AnySchema = {} as {_version: never}
+import './App.css'
+import { DraggableSources } from './components/DraggableSources'
+
+
+const initialSchema: AnySchema = {}
 const migratedSchema = migrationPlan(initialSchema)
 
 function formHasError(o: unknown): boolean {
@@ -39,7 +42,9 @@ function App() {
 
   return (
     <div className="App">
-      <ParentComponent value={value} onChange={onChange}/>
+      <DraggableSources/>
+      <hr style={{width: '100%', margin: '0'}}/>
+      <SlotComponent value={value} onChange={onChange}/>
       <button type="button" disabled={hasError} onClick={handleSubmit}>Submit</button>
     </div>
   )

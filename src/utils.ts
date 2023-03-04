@@ -1,8 +1,14 @@
-import { consumeAction, FormPackage, LatestVersionTag } from "./types";
-import get from 'lodash/get'
-import set from 'lodash/set'
-import merge from 'lodash/merge'
+import {
+  consumeAction,
+  FormPackage,
+  LatestVersionTag,
+  SlotAttributes,
+} from "./types";
+import get from "lodash/get";
+import set from "lodash/set";
+import merge from "lodash/merge";
 import { DeepPartial } from "utility-types";
+import { AllModules, CompatibleComponent } from "./components/formComponentMap";
 
 export type ExactType<T, U> = T extends U ? (U extends T ? T : never) : never;
 
@@ -108,7 +114,7 @@ type DeepOmit<T, Path extends string[]> = T extends object
 
 // Work-around to restrict array types to certain lengths
 // Example: `Arr extends string[] & { length: N }`
-type SingleDigit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+type SingleDigit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 /**
  * Extracts the value given an array of keys as the path
@@ -120,7 +126,9 @@ export type ValueAt<T, Path extends string[]> = T extends object
     ? Path[0] extends keyof T
       ? Path["length"] extends 1
         ? T[Path[0]]
-        : Path["length"] extends SingleDigit ? ValueAt<T[Path[0]], Tail<Path>> : never
+        : Path["length"] extends SingleDigit
+        ? ValueAt<T[Path[0]], Tail<Path>>
+        : never
       : never
     : never
   : never;
@@ -131,7 +139,6 @@ export type ValueAt<T, Path extends string[]> = T extends object
 export type UnDot<T extends string> = T extends `${infer A}.${infer B}`
   ? [A, ...UnDot<B>]
   : [T];
-
 
 type IncludeFlag = undefined;
 type ExcludeFlag = null;
@@ -229,7 +236,7 @@ export const prune = <
  *   schema: schema.subcomponent,
  *   formState: formState.CHILD_COMPONENT,
  * }}
- * onChange={(action) => 
+ * onChange={(action) =>
  *   onChange((old) => {
  *     const actionValue = consumeAction(
  *       {
@@ -252,28 +259,49 @@ export const prune = <
  * }
  * ```
  */
-export function createNestingAdapter<S extends LatestVersionTag,F,ParentProps extends FormPackage<S, F>>(props: ParentProps) {
-  return function passChildProps<A extends Paths<S>, B extends Paths<F>>(schemaPath: A, formStatePath: B) {
-    type MaybeChildSchema = ValueAt<S, UnDot<A>>
-    type MaybeChildFormState = ValueAt<F, UnDot<B>>
+export function createNestingAdapter<
+  S extends LatestVersionTag,
+  F,
+  ParentProps extends FormPackage<S, F>
+>(props: ParentProps) {
+  return function passChildProps<A extends Paths<S>, B extends Paths<F>>(
+    schemaPath: A,
+    formStatePath: B
+  ) {
+    type MaybeChildSchema = ValueAt<S, UnDot<A>>;
+    type MaybeChildFormState = ValueAt<F, UnDot<B>>;
     function getChildValue(value: ParentProps["value"]) {
       return {
         schema: get(value.schema, schemaPath) as MaybeChildSchema,
-        formState: get(value.formState, formStatePath) as MaybeChildFormState
-      }
+        formState: get(value.formState, formStatePath) as MaybeChildFormState,
+      };
     }
     return {
       value: getChildValue(props.value),
-      onChange: (action: React.SetStateAction<ReturnType<typeof getChildValue>>) => props.onChange((old) => {
-        const actionValue = consumeAction(
-          getChildValue(old),
-          action
-        );
-        return {
-          schema: merge(old.schema, set({}, schemaPath, actionValue.schema)),
-          formState: merge(old.formState, set({}, formStatePath, actionValue.formState)),
-        };
-      })
-    }
+      onChange: (
+        action: React.SetStateAction<ReturnType<typeof getChildValue>>
+      ) =>
+        props.onChange((old) => {
+          const actionValue = consumeAction(getChildValue(old), action);
+          return {
+            schema: merge(old.schema, set({}, schemaPath, actionValue.schema)),
+            formState: merge(
+              old.formState,
+              set({}, formStatePath, actionValue.formState)
+            ),
+          };
+        }),
+    };
+  };
+}
+
+export function moduleFitsSlot<S extends readonly SlotAttributes[]>(
+  module: AllModules,
+  slotAttributes: S
+): module is CompatibleComponent<S> {
+  const slotAttributeSet = new Set(slotAttributes);
+  if (module.Attributes.every((a) => slotAttributeSet.has(a))) {
+    return true;
   }
+  return false;
 }
