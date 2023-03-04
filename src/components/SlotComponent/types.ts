@@ -1,9 +1,9 @@
 import { SlotAttributes } from "../../types";
-import { CompatibleComponent } from "../formComponentMap";
+import { AllModuleTypes, CompatibleModule } from "../formComponentMap";
 import { Schema } from "./schema";
 
 export type FormState = {
-  CHILD_COMPONENT: ReturnType<CompatibleComponent<Schema["someSlot"]["_accepts"]>["FormDefaults"]> | null
+  CHILD_COMPONENT: AllModuleTypes["FormState"] | null
 }
 
 export const attributes = [

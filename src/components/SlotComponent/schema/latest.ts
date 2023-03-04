@@ -1,5 +1,17 @@
-import { ModuleID, LATEST_GLOBAL_VERSION, Slot, SlotAttributes, Tagged } from "../../../types";
+import type { DeepReadonly, Mutable, Primitive, Writable } from "utility-types";
+import { module } from "..";
+import {
+  ModuleID,
+  LATEST_GLOBAL_VERSION,
+  Slot,
+  SlotAttributes,
+  Tagged,
+  VersionTag,
+  ComponentIDTag,
+} from "../../../types";
+import { cloneReadonly } from "../../../utils";
 import * as ExampleComponent from "../../ExampleComponent";
+import { AllModuleTypes } from "../../formComponentMap";
 
 /**
  * This type should represent any possible config that might exist
@@ -23,24 +35,21 @@ export const VERSION = LATEST_GLOBAL_VERSION;
 /** The type that holds the union of this schema and any previous schema type */
 export type AnySchema = Schema | Legacy;
 
-
 /** This version's schema */
-export type Schema = Tagged<
+export interface Schema extends VersionTag<typeof VERSION>, ComponentIDTag<ModuleID.SlotComponent> 
   {
-    someSlot: Slot<[SlotAttributes.RENDERABLE]>
-  },
-  typeof VERSION,
-  ModuleID.SlotComponent
->;
+    someSlot: Slot<[SlotAttributes.RENDERABLE]>;
+  }
 
-export const defaults: Schema = {
+export const defaults = {
   _version: VERSION,
   _id: ModuleID.SlotComponent,
   someSlot: {
     _accepts: [SlotAttributes.RENDERABLE],
-    subcomponent: null
-  }
-}
+    subcomponent: null,
+  },
+} as const;
+
 
 /**
  * The migration plan chains the current migration plan with the previous migration plan
@@ -48,6 +57,6 @@ export const defaults: Schema = {
  */
 export const migrationPlan = (legacy: AnySchema): Schema => {
   return {
-    ...defaults,
+    ...cloneReadonly(defaults),
   };
 };

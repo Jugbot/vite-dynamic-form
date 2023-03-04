@@ -2,11 +2,11 @@ import { useAtomValue } from "jotai"
 import { ModuleID, SlotAttributes } from "../types"
 import { moduleFitsSlot } from "../utils"
 import { draggingComponentAtom, draggingDataType } from "./DraggableSources"
-import { CompatibleComponent, componentMap } from "./formComponentMap"
+import { CompatibleModule, componentMap } from "./formComponentMap"
 
 interface DragTargetProps<S extends readonly SlotAttributes[]> {
   accepts: S,
-  onSlotted: (module: CompatibleComponent<S>) => void
+  onSlotted: (module: CompatibleModule<S>) => void
 }
 
 export const DragTarget = <S extends readonly SlotAttributes[]>({accepts, onSlotted}: DragTargetProps<S>) => {

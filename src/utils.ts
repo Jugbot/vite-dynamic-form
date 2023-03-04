@@ -7,8 +7,8 @@ import {
 import get from "lodash/get";
 import set from "lodash/set";
 import merge from "lodash/merge";
-import { DeepPartial } from "utility-types";
-import { AllModules, CompatibleComponent } from "./components/formComponentMap";
+import { DeepPartial, DeepReadonly, Primitive } from "utility-types";
+import { AllModules, CompatibleModule } from "./components/formComponentMap";
 
 export type ExactType<T, U> = T extends U ? (U extends T ? T : never) : never;
 
@@ -298,10 +298,29 @@ export function createNestingAdapter<
 export function moduleFitsSlot<S extends readonly SlotAttributes[]>(
   module: AllModules,
   slotAttributes: S
-): module is CompatibleComponent<S> {
+): module is CompatibleModule<S> {
   const slotAttributeSet = new Set(slotAttributes);
-  if (module.Attributes.every((a) => slotAttributeSet.has(a))) {
+  if (module.attributes.every((a) => slotAttributeSet.has(a))) {
     return true;
   }
   return false;
+}
+
+/**
+ * Mutable version of DeepReadonly from utility-types
+ */
+export type DeepMutable<T> = T extends ((...args: any[]) => any) | Primitive
+  ? T
+  : T extends ReadonlyArray<infer U>
+  ? Array<DeepMutable<U>>
+  : T extends Readonly<infer B>
+  ? _DeepMutableObject<B>
+  : T;
+  
+type _DeepMutableObject<T> = {
+  -readonly [P in keyof T]: DeepMutable<T[P]>;
+};
+
+export function cloneReadonly<T>(o: DeepReadonly<T>): DeepMutable<T> {
+  return structuredClone(o);
 }

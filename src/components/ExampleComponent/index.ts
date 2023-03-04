@@ -1,20 +1,26 @@
 import {ExampleComponent} from './ExampleComponent' 
-import {Schema, AnySchema, defaults as SchemaDefaults} from './schema'
-import {defaults as FormDefaults } from './validation'
-import {attributes as Attributes, FormState} from './types'
-import { makeModule, SlotAttributes } from '../../types'
+import {Schema, AnySchema, defaults as schemaDefaults} from './schema'
+import {defaults as formDefaults } from './validation'
+import {attributes, FormState} from './types'
+import { makeModule, ModuleTypes } from '../formComponentMap'
 
 export const module = makeModule({
+  id: schemaDefaults._id,
   Component: ExampleComponent, 
-  SchemaDefaults,
-  FormDefaults,
-  Attributes
+  schemaDefaults,
+  formDefaults,
+  attributes
 })
 
+export type Module = ModuleTypes<
+  Schema, 
+  AnySchema,
+  FormState>
+
 export {
-  ExampleComponent, 
-  SchemaDefaults,
-  FormDefaults
+  ExampleComponent,
+  schemaDefaults,
+  formDefaults
 }
 
 export type {

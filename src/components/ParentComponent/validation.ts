@@ -1,7 +1,7 @@
 import { FormDataType, ProblemLabels } from "../../types";
 import { Schema } from "./schema";
 import { ErrorID, FormState } from "./types";
-import { FormDefaults as childDefaults } from "../ExampleComponent";
+import { formDefaults as childDefaults } from "../ExampleComponent";
 
 export function valueIsError(schema: Schema): FormState[ErrorID.ERROR] {
   if (schema.someValue === "error") {

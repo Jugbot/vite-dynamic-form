@@ -12,7 +12,7 @@ export const DraggableSources = () => {
       event
     ) => {
       setTimeout(() => setIsDragging(true), 10)
-      event.dataTransfer.setData(draggingDataType, module.SchemaDefaults._id);
+      event.dataTransfer.setData(draggingDataType, module.id);
     };
     return handleDragStart;
   };
@@ -24,7 +24,7 @@ export const DraggableSources = () => {
   return (
     <span style={{ display: "inline-flex", gap: "4px" }}>
       {modules.map((m) => {
-        const id = m.SchemaDefaults._id;
+        const id = m.id;
         return (
           <span
             key={id}

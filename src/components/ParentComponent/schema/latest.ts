@@ -1,3 +1,4 @@
+import { DeepReadonly } from 'utility-types';
 import { ModuleID, LATEST_GLOBAL_VERSION, Tagged } from '../../../types';
 import * as ExampleComponent from '../../ExampleComponent';
 
@@ -33,12 +34,12 @@ export type Schema = Tagged<
   ModuleID.ParentCompoennt
 >;
 
-export const defaults: Schema = {
+export const defaults = {
   _version: VERSION,
   _id: ModuleID.ParentCompoennt,
-  subcomponent: ExampleComponent.SchemaDefaults,
+  subcomponent: ExampleComponent.schemaDefaults,
   someValue: ''
-};
+} as const
 
 /**
  * The migration plan chains the current migration plan with the previous migration plan

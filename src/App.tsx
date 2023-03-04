@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './components/formComponentMap'
-import { AnySchema, FormDefaults, SlotComponent } from './components/SlotComponent'
+import { AnySchema, formDefaults, SlotComponent } from './components/SlotComponent'
 import { migrationPlan } from './components/SlotComponent/schema'
 
 import './App.css'
@@ -27,7 +27,7 @@ function formHasError(o: unknown): boolean {
 
 function App() {
   const [value, onChange] = useState({
-    formState: FormDefaults(migratedSchema),
+    formState: formDefaults(migratedSchema),
     schema: migratedSchema
   })
 
@@ -37,7 +37,7 @@ function App() {
 
   const handleSubmit = () => {
     alert("submit")
-    console.log(value.schema)
+    console.info(value.schema)
   }
 
   return (
