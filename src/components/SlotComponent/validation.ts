@@ -1,7 +1,7 @@
-import { ComponentID, FormDataType, ProblemLabels } from "../../types";
+import { ModuleID, FormDataType, ProblemLabels } from "../../types";
 import { Schema } from "./schema";
 import { FormState } from "./types";
-import { AllModules, componentMap } from "../formComponentMap";
+import { AllModules, ComponentMap, componentMap } from "../formComponentMap";
 
 
 export function defaults(schema: Schema): FormState {

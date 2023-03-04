@@ -1,5 +1,5 @@
 import { useAtomValue } from "jotai"
-import { ComponentID, SlotAttributes } from "../types"
+import { ModuleID, SlotAttributes } from "../types"
 import { moduleFitsSlot } from "../utils"
 import { draggingComponentAtom, draggingDataType } from "./DraggableSources"
 import { CompatibleComponent, componentMap } from "./formComponentMap"
@@ -16,14 +16,12 @@ export const DragTarget = <S extends readonly SlotAttributes[]>({accepts, onSlot
   }
   const handleDrop: React.DragEventHandler<HTMLDivElement> = (event) => {
     const componentID = event.dataTransfer.getData(draggingDataType)
-    console.log("drop", componentID)
     if (!componentID) {
       return
     }
-    const module = componentMap[componentID as ComponentID]
+    const module = componentMap[componentID as ModuleID]
     if (moduleFitsSlot(module, accepts)) {
       event.preventDefault()
-      console.log("fits")
       onSlotted(module)
     }
   }

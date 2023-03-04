@@ -1,14 +1,14 @@
 import React, { SetStateAction } from 'react';
 import { CompatibleComponent } from './components/formComponentMap';
 
-export enum ComponentID {
+export enum ModuleID {
   ExampleComponent = "ExampleComponent",
   ParentCompoennt = "ParentComponent",
   SlotComponent = "SlotComponent"
 }
 
 /** Component id used for attributing data to the component that uses it (get rid of form configs) */
-export interface ComponentIDTag<UID extends ComponentID> {
+export interface ComponentIDTag<UID extends ModuleID> {
   _id: UID
 }
 
@@ -18,7 +18,7 @@ export interface VersionTag<Version extends number> {
 
 export type LatestVersionTag = VersionTag<typeof LATEST_GLOBAL_VERSION>
 
-export type Tagged<Schema, Version extends number, UID extends ComponentID> = Schema &
+export type Tagged<Schema, Version extends number, UID extends ModuleID> = Schema &
   VersionTag<Version> &
   ComponentIDTag<UID>;
 

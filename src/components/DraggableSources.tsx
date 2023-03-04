@@ -12,15 +12,12 @@ export const DraggableSources = () => {
       event
     ) => {
       setTimeout(() => setIsDragging(true), 10)
-      console.log("start", module.SchemaDefaults._id)
       event.dataTransfer.setData(draggingDataType, module.SchemaDefaults._id);
-      console.log("get",event.dataTransfer.getData(draggingDataType))
     };
     return handleDragStart;
   };
 
   const handleDragEnd: React.DragEventHandler<HTMLSpanElement> = () => {
-    console.log("end")
     setIsDragging(false)
   }
 

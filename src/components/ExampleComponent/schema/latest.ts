@@ -1,6 +1,6 @@
 import {
   addMigrationPlan,
-  ComponentID,
+  ModuleID,
   LATEST_GLOBAL_VERSION,
   Tagged,
 } from '../../../types';
@@ -16,12 +16,12 @@ export type Schema = Tagged<
     color: string;
   },
   typeof VERSION,
-  ComponentID.ExampleComponent
+  ModuleID.ExampleComponent
 >;
 
 export const defaults: Schema = {
   _version: VERSION,
-  _id: ComponentID.ExampleComponent,
+  _id: ModuleID.ExampleComponent,
   value: '',
   color: '#cde',
 };

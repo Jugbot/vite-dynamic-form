@@ -1,4 +1,4 @@
-import { ComponentID, ComponentIDTag, FormComponentModule, SlotAttributes } from "../types";
+import { ModuleID, ComponentIDTag, FormComponentModule, SlotAttributes } from "../types";
 import { module as ExampleComponentModule } from "./ExampleComponent";
 import { module as ParentComponentModule } from "./ParentComponent";
 import { module as SlotComponentModule } from "./SlotComponent";
@@ -13,7 +13,7 @@ export const modules = [
 export type AllModules = typeof modules[number];
 type AllSchemas = AllModules["SchemaDefaults"]
 
-type ComponentMap = {[Module in AllModules as Module["SchemaDefaults"]["_id"]]: Module}
+export type ComponentMap = {[Module in AllModules as Module["SchemaDefaults"]["_id"]]: Module}
 
 // The id will automatically be pulled from the schema and put into a map of Record<id, module>
 export const componentMap = Object.fromEntries(

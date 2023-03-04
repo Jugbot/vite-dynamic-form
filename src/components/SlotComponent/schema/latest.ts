@@ -1,4 +1,4 @@
-import { ComponentID, LATEST_GLOBAL_VERSION, Slot, SlotAttributes, Tagged } from "../../../types";
+import { ModuleID, LATEST_GLOBAL_VERSION, Slot, SlotAttributes, Tagged } from "../../../types";
 import * as ExampleComponent from "../../ExampleComponent";
 
 /**
@@ -30,12 +30,12 @@ export type Schema = Tagged<
     someSlot: Slot<[SlotAttributes.RENDERABLE]>
   },
   typeof VERSION,
-  ComponentID.SlotComponent
+  ModuleID.SlotComponent
 >;
 
 export const defaults: Schema = {
   _version: VERSION,
-  _id: ComponentID.SlotComponent,
+  _id: ModuleID.SlotComponent,
   someSlot: {
     _accepts: [SlotAttributes.RENDERABLE],
     subcomponent: null

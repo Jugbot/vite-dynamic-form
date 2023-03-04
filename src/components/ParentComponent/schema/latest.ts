@@ -1,4 +1,4 @@
-import { ComponentID, LATEST_GLOBAL_VERSION, Tagged } from '../../../types';
+import { ModuleID, LATEST_GLOBAL_VERSION, Tagged } from '../../../types';
 import * as ExampleComponent from '../../ExampleComponent';
 
 /**
@@ -30,12 +30,12 @@ export type Schema = Tagged<
     someValue: string
   },
   typeof VERSION,
-  ComponentID.ParentCompoennt
+  ModuleID.ParentCompoennt
 >;
 
 export const defaults: Schema = {
   _version: VERSION,
-  _id: ComponentID.ParentCompoennt,
+  _id: ModuleID.ParentCompoennt,
   subcomponent: ExampleComponent.SchemaDefaults,
   someValue: ''
 };
