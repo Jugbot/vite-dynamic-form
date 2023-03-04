@@ -36,6 +36,7 @@ export const DraggableSources = () => {
               color: "#9ED0E6",
               padding: "0 4px",
               borderRadius: "2px",
+              cursor: 'grab'            
             }}
           >
             {id}
