@@ -18,6 +18,7 @@ export type FormState = Record<ErrorID, ValidationInfo | null> & {
  * schema structure whereas using unique ids separates the validation purpose from schema 
  * structure wich I prefer
  */
+// @ts-ignore
 type AnotherFormStateExample = {
   value: {
     change: ValidationInfo

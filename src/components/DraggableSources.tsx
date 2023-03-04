@@ -1,5 +1,5 @@
 import { atom, useSetAtom } from "jotai";
-import { AllModules, modules } from "./formComponentMap";
+import { AllModules, modules } from "./modules";
 
 export const draggingComponentAtom = atom(false);
 export const draggingDataType = "slot"

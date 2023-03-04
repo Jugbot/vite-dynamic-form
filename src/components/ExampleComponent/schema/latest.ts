@@ -1,12 +1,14 @@
-import { DeepReadonly } from 'utility-types';
 import {
   addMigrationPlan,
-  ModuleID,
   LATEST_GLOBAL_VERSION,
+  ModuleID,
   Tagged,
 } from '../../../types';
-import { cloneReadonly, combine, prune } from '../../../utils';
-
+import {
+  cloneReadonly,
+  combine,
+  prune,
+} from '../../../utils';
 import * as Last from './v1';
 
 export const VERSION = LATEST_GLOBAL_VERSION;

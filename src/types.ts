@@ -1,5 +1,6 @@
-import React, { SetStateAction } from 'react';
-import type { AllModuleTypes, CompatibleModule } from './components/formComponentMap';
+import { SetStateAction } from 'react';
+
+import type { CompatibleModuleTypes } from './components/modules';
 
 export enum ModuleID {
   ExampleComponent = "ExampleComponent",
@@ -17,6 +18,8 @@ export interface VersionTag<Version extends number> {
 }
 
 export type LatestVersionTag = VersionTag<typeof LATEST_GLOBAL_VERSION>
+/** Legacy schemas (schemas before versioning was implemented) */
+export type LegacyVersionTag = Partial<VersionTag<never>>
 
 export type Tagged<Schema, Version extends number, UID extends ModuleID> = Schema &
   VersionTag<Version> &
@@ -24,10 +27,6 @@ export type Tagged<Schema, Version extends number, UID extends ModuleID> = Schem
 
 export const LATEST_GLOBAL_VERSION = 2;
 
-/** Legacy schemas (schemas before versioning was implemented) */
-interface LegacyVersionTag {
-  _version?: never;
-}
 
 export function addMigrationPlan<
   LastSchema,
@@ -63,11 +62,6 @@ export enum ProblemLabels {
   DISABLE = 'DISABLE',
 }
 
-enum GlobalValidationIds {
-  // We may not need this
-  PLACEHOLDER = '',
-}
-
 export enum FormDataType {
   STATUS = "STATUS",
   DATA = "DATA"
@@ -91,22 +85,6 @@ export interface ValidationInfo extends TagFormData<FormDataType.STATUS> {
   // Optional message to display
   reason: string;
 };
-
-// Not sure if this is needed, probably not
-interface NestedInfo<Data> extends TagFormData<FormDataType.DATA> {
-  nested: Data
-}
-
-type FormEvents = 'change' | 'validation'
-type EventPayload<Schema, FormData> = {
-  change: Schema, 
-  validation: FormData
-}
-type EventToPaylod<Tuple extends readonly [...FormEvents[]], Schema, FormData> = {
-  [Index in keyof Tuple]: EventPayload<Schema, FormData>[Tuple[Index]];
-} & {length: Tuple['length']}
-
-type EventHandler = <T extends [...FormEvents[]], Schema, FormData>(actions: T, callback: SetStateAction<EventToPaylod<T, Schema, FormData>>) => void
 
 export interface FormPackage<
   Schema extends LatestVersionTag,
@@ -153,5 +131,5 @@ export enum SlotAttributes {
 
 export type Slot<T extends SlotAttributes[]> = {
   _accepts: Array<T[number]>;
-  subcomponent: AllModuleTypes["Schema"] | null
+  subcomponent: CompatibleModuleTypes<T>["Schema"] | null
 };

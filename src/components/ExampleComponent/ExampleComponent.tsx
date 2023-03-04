@@ -1,17 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React from 'react';
+
+import { FormPackage } from '../../types';
+import { ValidationInfoDisplay } from '../Error';
+import { Schema } from './schema';
 import {
-  FormDataType,
-  FormPackage,
-  LATEST_GLOBAL_VERSION,
-  ProblemLabels,
-  ValidationInfo,
-  VersionTag,
-} from "../../types";
-import { ValidationInfoDisplay } from "../Error";
-import * as validator from "./validation";
-import { Schema } from "./schema";
-import { ErrorID, FormState } from "./types";
+  ErrorID,
+  FormState,
+} from './types';
+import * as validator from './validation';
 
 export const ExampleComponent = ({
   value: { schema, formState },
@@ -38,8 +34,6 @@ export const ExampleComponent = ({
   const handleColorBlur: React.FocusEventHandler<HTMLInputElement> = (
     event
   ) => {
-    const newValue = event.currentTarget.value;
-    const newSchema = { ...schema, color };
     onChange((old) => ({
       ...old,
       formState: {

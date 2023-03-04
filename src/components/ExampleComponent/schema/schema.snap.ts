@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ExactType } from '../../../utils';
 
 /**
@@ -12,7 +13,7 @@ export {};
 /** Examples */
 
 // Add new non-optional prop (fail)
-`const example1: { a: string; b: string } = {} as { a: string };`;
+const example1: { a: string; b: string } = {} as { a: string };
 // Add an optional prop (pass)
 const example2: { a: string; b?: string } = {} as { a: string };
 
@@ -21,7 +22,7 @@ type NewUnion = 'a' | 'b' | 'c';
 // Add to an existing union or enum (pass)
 const example3: { g: NewUnion } = {} as { g: Union };
 // Remove from a union/enum value (fail)
-`const example4: { g: Union } = {} as { g: NewUnion };`;
+const example4: { g: Union } = {} as { g: NewUnion };
 
 /** Limitations */
 
@@ -29,7 +30,7 @@ const example3: { g: NewUnion } = {} as { g: Union };
 const example5: { a: string } = {} as { g: Union; a: string };
 
 // We can instead opt for using `Exact` comparison (fail)
-`const example6: ExactType<{ a: string }, { g: Union; a: string }>;`;
+const example6: ExactType<{ a: string }, { g: Union; a: string }>;
 // When types can fit into each other (pass)
 const example7: ExactType<{ a: string }, { a: string }> = {} as any;
 

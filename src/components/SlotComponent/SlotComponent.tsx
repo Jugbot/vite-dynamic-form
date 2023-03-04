@@ -1,14 +1,22 @@
-import { ComponentProps } from "react";
-import { FormPackage, ModuleID, SlotAttributes } from "../../types";
-import { cloneReadonly, combine, createNestingAdapter } from "../../utils";
-import { DragTarget } from "../DragTarget";
-import { CompatibleModule, componentMap } from "../formComponentMap";
-import { Schema } from "./schema";
-import { FormState } from "./types";
+import {
+  FormPackage,
+  SlotAttributes,
+} from '../../types';
+import {
+  cloneReadonly,
+  createNestingAdapter,
+} from '../../utils';
+import { DragTarget } from '../DragTarget';
+import {
+  CompatibleModule,
+  moduleMap,
+} from '../modules';
+import { Schema } from './schema';
+import { FormState } from './types';
 
 export const SlotComponent = (props: FormPackage<Schema, FormState>) => {
   const {
-    value: { schema, formState },
+    value: { schema },
     onChange,
   } = props;
 
@@ -20,7 +28,7 @@ export const SlotComponent = (props: FormPackage<Schema, FormState>) => {
       FormState,
       FormPackage<Schema, FormState>
     >(props);
-    const Component = componentMap[subcomponent._id].Component;
+    const Component = moduleMap[subcomponent._id].Component;
     // FIXME: Fix unions breaking function types
     SlotComponent = (
       <Component {...passProps("someSlot.subcomponent", "CHILD_COMPONENT") as any} />

@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import './components/formComponentMap'
-import { AnySchema, formDefaults, SlotComponent } from './components/SlotComponent'
-import { migrationPlan } from './components/SlotComponent/schema'
+
+import { formRootModule, FormRootModule, formMigrationPlan } from './components/modules'
 
 import './App.css'
 import { DraggableSources } from './components/DraggableSources'
 
+const {formDefaults, Component: FormRoot} = formRootModule
 
-const initialSchema: AnySchema = {}
-const migratedSchema = migrationPlan(initialSchema)
+const initialSchema: FormRootModule["AnySchema"] = {}
+const migratedSchema = formMigrationPlan(initialSchema)
 
 function formHasError(o: unknown): boolean {
   if (typeof o !== "object" || o === null || Array.isArray(o)) {
@@ -44,7 +44,7 @@ function App() {
     <div className="App">
       <DraggableSources/>
       <hr style={{width: '100%', margin: '0'}}/>
-      <SlotComponent value={value} onChange={onChange}/>
+      <FormRoot value={value} onChange={onChange}/>
       <button type="button" disabled={hasError} onClick={handleSubmit}>Submit</button>
     </div>
   )

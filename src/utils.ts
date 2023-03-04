@@ -8,7 +8,7 @@ import get from "lodash/get";
 import set from "lodash/set";
 import merge from "lodash/merge";
 import { DeepPartial, DeepReadonly, Primitive } from "utility-types";
-import { AllModules, CompatibleModule } from "./components/formComponentMap";
+import { AllModules, CompatibleModule } from "./components/modules";
 
 export type ExactType<T, U> = T extends U ? (U extends T ? T : never) : never;
 
@@ -95,22 +95,6 @@ type Tail<T extends any[]> = T extends T
     ? R
     : never
   : never;
-
-// FIXME
-type DeepIntersection<T, K extends keyof T = keyof T> = Record<
-  K,
-  T[K] extends object ? DeepIntersection<T[K]> : T[K]
->;
-
-type DeepOmit<T, Path extends string[]> = T extends object
-  ? Path extends Path
-    ? Path["length"] extends 1
-      ? Omit<T, Path[0]>
-      : {
-          [K in keyof T]: K extends Path[0] ? DeepOmit<T[K], Tail<Path>> : T[K];
-        }
-    : never
-  : T;
 
 // Work-around to restrict array types to certain lengths
 // Example: `Arr extends string[] & { length: N }`

@@ -1,17 +1,12 @@
-import type { DeepReadonly, Mutable, Primitive, Writable } from "utility-types";
-import { module } from "..";
 import {
-  ModuleID,
+  ComponentIDTag,
   LATEST_GLOBAL_VERSION,
+  ModuleID,
   Slot,
   SlotAttributes,
-  Tagged,
   VersionTag,
-  ComponentIDTag,
-} from "../../../types";
-import { cloneReadonly } from "../../../utils";
-import * as ExampleComponent from "../../ExampleComponent";
-import { AllModuleTypes } from "../../formComponentMap";
+} from '../../../types';
+import { cloneReadonly } from '../../../utils';
 
 /**
  * This type should represent any possible config that might exist
@@ -36,10 +31,11 @@ export const VERSION = LATEST_GLOBAL_VERSION;
 export type AnySchema = Schema | Legacy;
 
 /** This version's schema */
-export interface Schema extends VersionTag<typeof VERSION>, ComponentIDTag<ModuleID.SlotComponent> 
-  {
-    someSlot: Slot<[SlotAttributes.RENDERABLE]>;
-  }
+export interface Schema
+  extends VersionTag<typeof VERSION>,
+    ComponentIDTag<ModuleID.SlotComponent> {
+  someSlot: Slot<[SlotAttributes.RENDERABLE]>;
+}
 
 export const defaults = {
   _version: VERSION,
@@ -49,7 +45,6 @@ export const defaults = {
     subcomponent: null,
   },
 } as const;
-
 
 /**
  * The migration plan chains the current migration plan with the previous migration plan

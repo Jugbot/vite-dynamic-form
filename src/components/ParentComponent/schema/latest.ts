@@ -1,5 +1,8 @@
-import { DeepReadonly } from 'utility-types';
-import { ModuleID, LATEST_GLOBAL_VERSION, Tagged } from '../../../types';
+import {
+  LATEST_GLOBAL_VERSION,
+  ModuleID,
+  Tagged,
+} from '../../../types';
 import * as ExampleComponent from '../../ExampleComponent';
 
 /**
