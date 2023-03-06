@@ -11,6 +11,13 @@ import {
 } from '../../../utils';
 import * as Last from './v1';
 
+/**
+ * To upgrade this version: 
+ * 1. Duplicate this file and name it v2
+ * 2. In v2 set the version to whatever the latest version is (i.e. `VERSION = 2`)
+ * 3. Bump the latest version 
+ * 4. Edit latest.ts schema, defauls, migration plan
+ */
 export const VERSION = LATEST_GLOBAL_VERSION;
 
 export type Schema = Tagged<
