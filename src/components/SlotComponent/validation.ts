@@ -6,7 +6,7 @@ function getNestedFormState(schema: Schema) {
   const slottedComponent = schema.someSlot.subcomponent;
   if (slottedComponent) {
     const module = moduleMap[slottedComponent._id];
-    // FIXME: ts doesn't know that form defaults is compatible with component
+    // https://stackoverflow.com/q/75630125/5116074
     return module.formDefaults(slottedComponent as never);
   }
   return null;

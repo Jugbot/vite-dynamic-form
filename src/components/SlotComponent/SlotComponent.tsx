@@ -51,6 +51,7 @@ export const SlotComponent = (props: FormPackage<Schema, FormState>) => {
       },
       formState: {
         ...prev.formState,
+        // https://stackoverflow.com/q/75630125/5116074
         CHILD_COMPONENT: module.formDefaults(module.schemaDefaults as never),
       },
     }));
