@@ -9,7 +9,7 @@
 - Important types -> https://github.com/Jugbot/vite-dynamic-form/blob/main/src/types.ts
 - Module directory (how we look up a module using and id) -> https://github.com/Jugbot/vite-dynamic-form/blob/main/src/components/modules.ts
 
-Form Components:
+### Form Components:
 - Example Component -- simple component that clearly demonstrates basic form behavior
 - Parent Component -- more compplicated component that shows how to nest form components inside one another
 - Slot Component -- the most advanced component that dynamically hosts different children
