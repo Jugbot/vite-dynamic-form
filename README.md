@@ -16,3 +16,6 @@ A modularized and strongly-typed form implementation which is backwards-compatib
 - Parent Component -- more compplicated component that shows how to nest form components inside one another
 - Slot Component -- the most advanced component that dynamically hosts different children
 
+## Important Mentions
+
+- We determine global form state such as "Should the submit button be enabled" by defiing a special key `_type` and recursively searching for errors in the form state tree. There are probably better ways to do this but *premature optimization is the root of all evil*
