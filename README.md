@@ -1,5 +1,7 @@
 # vite-dynamic-form
 
+A modularized and strongly-typed form implementation which is backwards-compatible with old data, running local migrations to ensure data integrity.
+
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/vitejs-vite-gqcg3d)
 
 ## Important Files
