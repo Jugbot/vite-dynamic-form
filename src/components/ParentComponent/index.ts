@@ -1,5 +1,5 @@
 import {ParentComponent} from './ParentComponent' 
-import {Schema, AnySchema, defaults as schemaDefaults} from './schema'
+import {Schema, AnySchema, defaults as schemaDefaults, migrationPlan} from './schema'
 import {defaults as formDefaults } from './validation'
 import {attributes , FormState} from './types'
 import { makeModule, ModuleTypes } from '../modules'
@@ -8,6 +8,7 @@ export const module = makeModule({
   id: schemaDefaults._id,
   Component: ParentComponent, 
   schemaDefaults,
+  migrationPlan,
   formDefaults,
   attributes
 })

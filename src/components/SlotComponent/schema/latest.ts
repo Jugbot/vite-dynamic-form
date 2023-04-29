@@ -50,7 +50,7 @@ export const defaults = {
  * The migration plan chains the current migration plan with the previous migration plan
  * @see `addMigrationPlan`
  */
-export const migrationPlan = (legacy: AnySchema): Schema => {
+export const migrationPlan = (_legacy: AnySchema): Schema => {
   return {
     ...cloneReadonly(defaults),
   };

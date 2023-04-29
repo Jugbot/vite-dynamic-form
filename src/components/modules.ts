@@ -49,17 +49,19 @@ export type ModuleTypes<Schema extends LatestVersionTag, AnySchema extends Legac
 };
 
 // Each form component should export a "module" that contains info that we will need for click to edit / drag and drop
-export type FormComponentModule<
+export interface FormComponentModule<
   P,
   N extends ModuleID,
   S extends ComponentIDTag<N>,
   F,
   A,
-  R extends Readonly<ComponentIDTag<N>>
-> = {
+  R extends Readonly<ComponentIDTag<N>>,
+  M extends (schema: S) => S
+> {
   id: N;
   Component: React.FunctionComponent<P>;
   schemaDefaults: R; // DeepReadonly<S>, // Causes recursion issues with types that have circular references
+  migrationPlan: M
   formDefaults: (schema: S) => F;
   attributes: A;
 };
@@ -71,8 +73,9 @@ export function makeModule<
   S extends ComponentIDTag<N>,
   F,
   A,
-  R extends Readonly<ComponentIDTag<N>>
->(options: FormComponentModule<P, N, S, F, A, R>) {
+  R extends Readonly<ComponentIDTag<N>>,
+  M extends (schema: S) => S
+>(options: FormComponentModule<P, N, S, F, A, R, M>) {
   return options;
 }
 

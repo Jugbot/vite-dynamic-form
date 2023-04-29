@@ -19,3 +19,7 @@ A modularized and strongly-typed form implementation which is backwards-compatib
 ## Important Mentions
 
 - We determine global form state such as "Should the submit button be enabled" by defiing a special key `_type` and recursively searching for errors in the form state tree. There are probably better ways to do this but *premature optimization is the root of all evil*
+
+### Issues
+
+- Currently, schema migration isn't correctly propagated to children. Ideally this shouldn't have to be handled by the parent component's migration script but should be done at the root level by deep searching for components and migrating them.
