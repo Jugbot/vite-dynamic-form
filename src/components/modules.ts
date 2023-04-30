@@ -1,15 +1,18 @@
-import type { ComponentIDTag, LatestVersionTag, LegacyVersionTag, ModuleID, SlotAttributes, VersionTag } from "../types";
-import { module as exampleComponentModule } from "./ExampleComponent";
-import { module as parentComponentModule } from "./ParentComponent";
-import { module as slotComponentModule } from "./SlotComponent";
-import type { Module as ExampleComponentModule } from "./ExampleComponent";
-import type { Module as ParentComponentModule } from "./ParentComponent";
-import type { Module as SlotComponentModule } from "./SlotComponent";
-import { migrationPlan } from "./SlotComponent/schema";
+import type {
+  LatestVersionTag,
+  LegacyVersionTag,
+  SlotAttributes,
+  VersionTag,
+} from '../types';
+import { module as exampleComponentModule } from './ExampleComponent';
+import { ExtractSchema } from './formComponentModule';
+import { module as parentComponentModule } from './ParentComponent';
+import { module as slotComponentModule } from './SlotComponent';
+import { migrationPlan } from './SlotComponent/schema';
 
 // The root component of the form can just be any component
 export const formRootModule = slotComponentModule
-export type FormRootModule = SlotComponentModule
+export type FormRootModule = typeof slotComponentModule
 export const formMigrationPlan = migrationPlan
 
 // When creating a new form component it is necessary to add the module here
@@ -19,21 +22,12 @@ export const modules = [
   slotComponentModule,
 ];
 
-// Since it is impossible to bundle values and types together we also need to add the modules extra types here
-type moduleTypes = [
-  ExampleComponentModule,
-  ParentComponentModule,
-  SlotComponentModule
-];
-
 export type AllModules = typeof modules[number];
 
 export type ModuleMap = { [Module in AllModules as Module["id"]]: Module };
 
-export type AllModuleTypes = moduleTypes[number];
-
 export type ModuleTypeMap = {
-  [Module in AllModuleTypes as Module["Schema"]["_id"]]: Module;
+  [Module in AllModules as ExtractSchema<Module>["_id"]]: Module;
 };
 
 // The id will automatically be pulled from the schema and put into a map of Record<id, module>
@@ -47,37 +41,6 @@ export type ModuleTypes<Schema extends LatestVersionTag, AnySchema extends Legac
   AnySchema: AnySchema;
   FormState: FormState;
 };
-
-// Each form component should export a "module" that contains info that we will need for click to edit / drag and drop
-export interface FormComponentModule<
-  P,
-  N extends ModuleID,
-  S extends ComponentIDTag<N>,
-  F,
-  A,
-  R extends Readonly<ComponentIDTag<N>>,
-  M extends (schema: S) => S
-> {
-  id: N;
-  Component: React.FunctionComponent<P>;
-  schemaDefaults: R; // DeepReadonly<S>, // Causes recursion issues with types that have circular references
-  migrationPlan: M
-  formDefaults: (schema: S) => F;
-  attributes: A;
-};
-
-// Used so we can infer the generic parts (Props, Schema, FormState)
-export function makeModule<
-  P,
-  N extends ModuleID,
-  S extends ComponentIDTag<N>,
-  F,
-  A,
-  R extends Readonly<ComponentIDTag<N>>,
-  M extends (schema: S) => S
->(options: FormComponentModule<P, N, S, F, A, R, M>) {
-  return options;
-}
 
 /**
  * Union of all components modules that contain the given attributes.

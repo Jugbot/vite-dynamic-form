@@ -3,7 +3,8 @@ import {
   ModuleID,
   Tagged,
 } from '../../../types';
-import * as ExampleComponent from '../../ExampleComponent';
+import {module as exampleComponentModule} from '../../ExampleComponent';
+import { ExtractSchema } from '../../formComponentModule';
 
 /**
  * This type should represent any possible config that might exist
@@ -30,7 +31,7 @@ export type AnySchema = Schema | Legacy;
 /** This version's schema */
 export type Schema = Tagged<
   {
-    subcomponent: ExampleComponent.Schema;
+    subcomponent: ExtractSchema<typeof exampleComponentModule>;
     someValue: string
   },
   typeof VERSION,
@@ -40,7 +41,7 @@ export type Schema = Tagged<
 export const defaults = {
   _version: VERSION,
   _id: ModuleID.ParentCompoennt,
-  subcomponent: ExampleComponent.schemaDefaults,
+  subcomponent: exampleComponentModule.schemaDefaults,
   someValue: ''
 } as const
 

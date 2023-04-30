@@ -1,7 +1,7 @@
 import { FormDataType, ProblemLabels } from "../../types";
 import { Schema } from "./schema";
 import { ErrorID, FormState } from "./types";
-import { formDefaults as childDefaults } from "../ExampleComponent";
+import { module as exampleComponentModule } from "../ExampleComponent";
 
 export function valueIsError(schema: Schema): FormState[ErrorID.ERROR] {
   if (schema.someValue === "error") {
@@ -17,6 +17,6 @@ export function valueIsError(schema: Schema): FormState[ErrorID.ERROR] {
 export function defaults(schema: Schema): FormState {
   return {
     [ErrorID.ERROR]: valueIsError(schema),
-    CHILD_COMPONENT: childDefaults(schema.subcomponent),
+    CHILD_COMPONENT: exampleComponentModule.formDefaults(schema.subcomponent),
   };
 }

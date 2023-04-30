@@ -1,6 +1,7 @@
 import { SetStateAction } from 'react';
 
 import type { CompatibleModuleTypes } from './components/modules';
+import { ExtractSchema } from './components/formComponentModule';
 
 export enum ModuleID {
   ExampleComponent = "ExampleComponent",
@@ -131,5 +132,5 @@ export enum SlotAttributes {
 
 export type Slot<T extends SlotAttributes[]> = {
   _accepts: Array<T[number]>;
-  subcomponent: CompatibleModuleTypes<T>["Schema"] | null
+  subcomponent: ExtractSchema<CompatibleModuleTypes<T>> | null
 };

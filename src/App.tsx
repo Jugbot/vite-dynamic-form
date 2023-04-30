@@ -4,10 +4,11 @@ import { formRootModule, FormRootModule, formMigrationPlan } from './components/
 
 import './App.css'
 import { DraggableSources } from './components/DraggableSources'
+import { ExtractAnySchema } from './components/formComponentModule'
 
 const {formDefaults, Component: FormRoot} = formRootModule
 
-const initialSchema: FormRootModule["AnySchema"] = {}
+const initialSchema: ExtractAnySchema<FormRootModule> = {}
 const migratedSchema = formMigrationPlan(initialSchema)
 
 function formHasError(o: unknown): boolean {

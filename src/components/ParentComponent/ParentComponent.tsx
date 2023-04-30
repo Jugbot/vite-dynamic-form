@@ -1,7 +1,7 @@
 import { FormPackage } from "../../types";
 import { createNestingAdapter } from "../../utils";
 import { ValidationInfoDisplay } from "../Error";
-import { ExampleComponent } from "../ExampleComponent";
+import { module as exampleComponentModule } from "../ExampleComponent";
 import { Schema } from "./schema";
 import { ErrorID, FormState } from "./types";
 import * as validator from "./validation";
@@ -42,7 +42,7 @@ export const ParentComponent = (props: FormPackage<Schema, FormState>) => {
         placeholder="I am a field in parent"
       />
       <ValidationInfoDisplay info={formState.ERROR} />
-      <ExampleComponent {...passProps("subcomponent", "CHILD_COMPONENT")} />
+      <exampleComponentModule.Component {...passProps("subcomponent", "CHILD_COMPONENT")} />
     </div>
   );
 };

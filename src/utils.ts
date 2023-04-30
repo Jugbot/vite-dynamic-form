@@ -7,7 +7,7 @@ import {
 import get from "lodash/get";
 import set from "lodash/set";
 import merge from "lodash/merge";
-import { DeepPartial, DeepReadonly, Primitive } from "utility-types";
+import { DeepPartial, Primitive } from "utility-types";
 import { AllModules, CompatibleModule } from "./components/modules";
 
 export type ExactType<T, U> = T extends U ? (U extends T ? T : never) : never;
@@ -300,9 +300,23 @@ export type DeepMutable<T> = T extends ((...args: any[]) => any) | Primitive
   : T extends Readonly<infer B>
   ? _DeepMutableObject<B>
   : T;
-  
+
 type _DeepMutableObject<T> = {
   -readonly [P in keyof T]: DeepMutable<T[P]>;
+};
+
+/**
+ * This version of DeepReadonly is different from utility-types in 
+ * that it works with recurseive types (such as the slot-component's schema)
+ */
+export type DeepReadonly<T> = T extends ReadonlyArray<infer U>
+  ? ReadonlyArray<DeepReadonly<U>>
+  : T extends object
+  ? _DeepReadonlyObject<T>
+  : T;
+
+type _DeepReadonlyObject<T> = {
+  readonly [P in keyof T]: DeepReadonly<T[P]>;
 };
 
 export function cloneReadonly<T>(o: DeepReadonly<T>): DeepMutable<T> {

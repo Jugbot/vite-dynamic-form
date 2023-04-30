@@ -1,12 +1,13 @@
 import { SlotAttributes, ValidationInfo } from "../../types";
-import * as ExampleComponent from '../ExampleComponent';
+import {module as exampleComponentModule} from '../ExampleComponent';
+import { ExtractFormState } from "../formComponentModule";
 
 export enum ErrorID {
   ERROR = 'ERROR',
 }
 
 type SubComponent = {
-  CHILD_COMPONENT: ExampleComponent.FormState
+  CHILD_COMPONENT: ExtractFormState<typeof exampleComponentModule>
 }
 
 export type FormState = Record<ErrorID, ValidationInfo | null> & SubComponent
