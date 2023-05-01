@@ -1,54 +1,54 @@
-import { useState } from 'react'
+import { ComponentProps, useState } from "react";
+import { AllModules, loadSchema, moduleMap } from "./components/modules";
+import "./App.css";
+import { DraggableSources } from "./components/DraggableSources";
+import { ExtractAnySchema } from "./components/formComponentModule";
+import { ModuleID } from "./types";
+import { AnyComponent } from "./components/AnyComponent";
 
-import { formRootModule, FormRootModule, formMigrationPlan } from './components/modules'
 
-import './App.css'
-import { DraggableSources } from './components/DraggableSources'
-import { ExtractAnySchema } from './components/formComponentModule'
+const initialSchema: Record<string, unknown> = {
+  _id: ModuleID.SlotComponent,
+} satisfies ExtractAnySchema<AllModules>;
 
-const {formDefaults, Component: FormRoot} = formRootModule
-
-const initialSchema: ExtractAnySchema<FormRootModule> = {}
-const migratedSchema = formMigrationPlan(initialSchema)
+const migratedSchema = loadSchema(initialSchema);
+const rootModule = moduleMap[migratedSchema._id];
 
 function formHasError(o: unknown): boolean {
   if (typeof o !== "object" || o === null || Array.isArray(o)) {
-    return false
-  } 
+    return false;
+  }
   for (const key in o) {
     if (key === "_type") {
-      return true
+      return true;
     }
     if (formHasError((o as Record<string, unknown>)[key])) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 
 function App() {
   const [value, onChange] = useState({
-    formState: formDefaults(migratedSchema),
-    schema: migratedSchema
-  })
-
-  const hasError = formHasError(
-    value.formState
-  )
-
+    formState: rootModule.formDefaults(migratedSchema as never),
+    schema: migratedSchema,
+  } as ComponentProps<AllModules["Component"]>["value"]);
+  const hasError = formHasError(value.formState);
   const handleSubmit = () => {
-    alert("submit")
-    console.info(value.schema)
-  }
-
+    alert("submit");
+    console.info(value.schema);
+  };
   return (
     <div className="App">
-      <DraggableSources/>
-      <hr style={{width: '100%', margin: '0'}}/>
-      <FormRoot value={value} onChange={onChange}/>
-      <button type="button" disabled={hasError} onClick={handleSubmit}>Submit</button>
+      <DraggableSources />
+      <hr style={{ width: "100%", margin: "0" }} />
+      {AnyComponent({value, onChange} as ComponentProps<AllModules["Component"]>)}
+      <button type="button" disabled={hasError} onClick={handleSubmit}>
+        Submit
+      </button>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

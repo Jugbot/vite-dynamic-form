@@ -1,16 +1,20 @@
-import { addMigrationPlan } from '../../../types';
+import { ModuleID, Tagged, addMigrationPlan } from '../../../types';
 
 import * as Last from './v0';
 
 export const VERSION = 1;
 
-export type Schema = {
-  _version: typeof VERSION;
+export type Schema = Tagged<
+{
   value: string;
-};
+},
+typeof VERSION,
+ModuleID.ExampleComponent
+>;
 
 export const defaults: Schema = {
   _version: VERSION,
+  _id: ModuleID.ExampleComponent,
   value: ''
 }
 

@@ -5,15 +5,10 @@ import type {
   VersionTag,
 } from '../types';
 import { module as exampleComponentModule } from './ExampleComponent';
-import { ExtractSchema } from './formComponentModule';
+import { ExtractAnySchema, ExtractSchema } from './formComponentModule';
 import { module as parentComponentModule } from './ParentComponent';
 import { module as slotComponentModule } from './SlotComponent';
-import { migrationPlan } from './SlotComponent/schema';
 
-// The root component of the form can just be any component
-export const formRootModule = slotComponentModule
-export type FormRootModule = typeof slotComponentModule
-export const formMigrationPlan = migrationPlan
 
 // When creating a new form component it is necessary to add the module here
 export const modules = [
@@ -26,14 +21,14 @@ export type AllModules = typeof modules[number];
 
 export type ModuleMap = { [Module in AllModules as Module["id"]]: Module };
 
-export type ModuleTypeMap = {
-  [Module in AllModules as ExtractSchema<Module>["_id"]]: Module;
-};
-
 // The id will automatically be pulled from the schema and put into a map of Record<id, module>
 export const moduleMap = Object.fromEntries(
   modules.map((m) => [m.id, m])
-) as ModuleMap;
+) as { [Module in AllModules as Module["id"]]: Module };
+
+export function schemaModule<Schema extends ExtractAnySchema<AllModules>>(schema: Schema) {
+  return moduleMap[schema._id] as ModuleMap[Schema["_id"]]
+}
 
 // Template used to export the same types in all modules
 export type ModuleTypes<Schema extends LatestVersionTag, AnySchema extends LegacyVersionTag | VersionTag<number>, FormState> = {
@@ -61,4 +56,29 @@ export type CompatibleModule<
 export type CompatibleModuleTypes<
   A extends readonly SlotAttributes[],
   Test = AllModules
-> = ModuleTypeMap[CompatibleModule<A, Test>["id"]];
+> = ModuleMap[CompatibleModule<A, Test>["id"]];
+
+const isSchema = (obj: object): obj is ExtractAnySchema<AllModules> => "_id" in obj
+
+export function mapSchemas<T>(obj: Record<string, unknown>, transform: (anySchema: ExtractAnySchema<AllModules>) => T) {
+  for (const key in obj) {
+    const value = obj[key]
+    if (typeof value === "object" && value !== null) {
+      obj[key] = mapSchemas(value as Record<string, unknown>, transform);
+    }
+  }
+  return isSchema(obj) ? transform(obj) : obj
+}
+
+function migrateSchema<T extends AllModules>(anySchema: ExtractAnySchema<T>): ExtractSchema<T> {
+  const module = moduleMap[anySchema._id]
+  return module.migrationPlan(anySchema as never) as ExtractSchema<T>
+}
+
+export function loadSchema(obj: Record<string, unknown>): ExtractSchema<AllModules> {
+  const migratedSchema = mapSchemas(obj, migrateSchema)
+  if (!isSchema(migratedSchema)) {
+    throw new Error("The root object is not a schema!")
+  }
+  return migratedSchema
+}

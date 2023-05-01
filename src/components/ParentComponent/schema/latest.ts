@@ -1,5 +1,6 @@
 import {
   LATEST_GLOBAL_VERSION,
+  LegacyTagged,
   ModuleID,
   Tagged,
 } from '../../../types';
@@ -11,9 +12,8 @@ import { ExtractSchema } from '../../formComponentModule';
  * in the system before we adopted versioning
  */
 
-type Legacy = {
-  _version?: never
-};
+type Legacy = LegacyTagged<{
+}, ModuleID.ParentCompoennt>;
 
 /**
  * This component's schema, which may change in future iterations

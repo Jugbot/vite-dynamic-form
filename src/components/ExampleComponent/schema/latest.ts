@@ -41,10 +41,7 @@ export type AnySchema = Last.AnySchema | Schema;
 export const migrationPlan = addMigrationPlan(
   Last.migrationPlan,
   (oldSchema): Schema => {
-    return {
-      ...combine(prune(oldSchema, { _version: null }), cloneReadonly<Schema>(defaults)),
-      _version: VERSION,
-    };
+    return combine(prune(oldSchema, { _version: null }), cloneReadonly<Schema>(defaults))
   },
   VERSION
 );

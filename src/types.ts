@@ -26,6 +26,10 @@ export type Tagged<Schema, Version extends number, UID extends ModuleID> = Schem
   VersionTag<Version> &
   ComponentIDTag<UID>;
 
+export type LegacyTagged<Schema, UID extends ModuleID> = Schema &
+LegacyVersionTag &
+ComponentIDTag<UID>;
+
 export const LATEST_GLOBAL_VERSION = 2;
 
 

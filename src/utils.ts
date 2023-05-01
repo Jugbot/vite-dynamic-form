@@ -127,13 +127,13 @@ export type UnDot<T extends string> = T extends `${infer A}.${infer B}`
 type IncludeFlag = undefined;
 type ExcludeFlag = null;
 type Flags = IncludeFlag | ExcludeFlag;
-type NullMap<T extends Record<string, unknown>> = {
+type NullMap<T extends object> = {
   [K in keyof T]?: T[K] extends Record<string, unknown>
     ? NullMap<T[K]> | Flags
     : Flags;
 };
 
-type Removed<T extends Record<string, unknown>, R extends NullMap<T>> = {
+type Removed<T extends object, R extends NullMap<T>> = {
   [K in keyof T]: R[K] extends ExcludeFlag
     ? never
     : T[K] extends Record<string, unknown>
@@ -191,7 +191,7 @@ type Removed<T extends Record<string, unknown>, R extends NullMap<T>> = {
  * ```
  */
 export const prune = <
-  Value extends Record<string, unknown>,
+  Value extends object,
   ExclusionMap extends NullMap<Value>
 >(
   value: Value,

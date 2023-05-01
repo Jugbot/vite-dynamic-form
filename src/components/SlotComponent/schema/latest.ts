@@ -1,6 +1,7 @@
 import {
   ComponentIDTag,
   LATEST_GLOBAL_VERSION,
+  LegacyTagged,
   ModuleID,
   Slot,
   SlotAttributes,
@@ -13,9 +14,8 @@ import { cloneReadonly } from '../../../utils';
  * in the system before we adopted versioning
  */
 
-type Legacy = {
-  _version?: never;
-};
+type Legacy = LegacyTagged<{
+}, ModuleID.SlotComponent>;
 
 /**
  * This component's schema, which may change in future iterations
