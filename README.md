@@ -18,4 +18,4 @@ A modularized and strongly-typed form implementation which is backwards-compatib
 
 ## Important Mentions
 
-- We determine global form state such as "Should the submit button be enabled" by defiing a special key `_type` and recursively searching for errors in the form state tree. There are probably better ways to do this but *premature optimization is the root of all evil*
+- We determine global form state such as "Should the submit button be enabled" by defining a special key `_type` and recursively searching for errors in the form state tree. There are probably better ways to do this but *premature optimization is the root of all evil*
