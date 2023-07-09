@@ -12,7 +12,7 @@ export interface FormComponentModule<
 > {
   id: ID;
   Component: React.FunctionComponent<FormPackage<Schema, FormState>>;
-  schemaDefaults: DeepReadonly<Schema>, // Causes recursion issues with types that have circular references
+  schemaDefaults: DeepReadonly<Schema>,
   migrationPlan: (schema: AnySchema) => Schema
   formDefaults: (schema: Schema) => FormState;
   attributes: Attributes;
